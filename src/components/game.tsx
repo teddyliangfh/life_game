@@ -5,12 +5,14 @@ import Cell from '../components/cell';
 const StyledGameBox = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1em 2em;
+  padding: 2em 2em;
   background: papayawhip;
   border: 3px solid #ffdba5;
-  border-radius: 0.5em;
-  margin-bottom: 1em;
-  > .game-area {
+  width: 40em;
+  height: 30em;
+  margin: auto;
+  border-radius: .5em;
+  .game-area {
     width: 20em;
     height: 20em;
     background: #fff;
@@ -20,6 +22,7 @@ const StyledGameBox = styled.div`
     padding: 1em;
     grid-template-columns: repeat(10, auto);
     margin: auto;
+    border-radius: 0.2em;
   }
   .game-cell {
     width: 1.6em;
@@ -33,9 +36,26 @@ const StyledGameBox = styled.div`
     cursor: pointer;
     position: relative;
   }
-  .game-cell:hover {
-    background-color: rgb(85, 112, 134);
+  .button-area {
+    padding-top: 1em;
+    margin-bottom: 2em;
   }
+`;
+const Button = styled.button`
+   color: #fff;
+    height: 2em;
+    font-size: 1em;
+    width: 8.8em;
+    background-color: rgb(25, 44, 56);
+    border-radius: 0.25rem;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    cursor: pointer;
+    user-select: none;
 `;
 interface StateType {
   cellsArr: any[];
@@ -83,7 +103,10 @@ class Game extends React.Component {
       return item
     })
     this.setState({ cellsArr: upDatedCellArray });
+  }
 
+  resetCells() {
+    this.initGameData();
   }
 
   render() {
@@ -111,6 +134,16 @@ class Game extends React.Component {
             );
           })}
         </div>
+        <div className="button-area" >
+          <Button onClick={() => { this.resetCells() }}>
+            reset
+          </Button>
+          <Button>
+            next generation
+          </Button>
+        </div>
+
+
       </StyledGameBox>
     );
   }
