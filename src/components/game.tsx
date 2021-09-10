@@ -18,27 +18,14 @@ const StyledGameBox = styled.div`
     background: #fff;
     margin: auto;
     display: grid;
-    gap: .1em;
-    padding: 1em;
+    gap: .2em;
+    padding: .6em;
     grid-template-columns: repeat(10, auto);
     margin: auto;
     border-radius: 0.2em;
   }
-  .game-cell {
-    width: 1.6em;
-    height: 1.6em;
-    background: aliceblue;
-    border-radius: 0.1em;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    position: relative;
-  }
   .button-area {
     padding-top: 1em;
-    margin-bottom: 2em;
   }
 `;
 const Button = styled.button`
@@ -109,6 +96,10 @@ class Game extends React.Component {
     this.initGameData();
   }
 
+  nextGeneration() {
+
+  }
+
   render() {
     const { cellsArr } = this.state;
     console.log('render cellsArr', cellsArr);
@@ -138,7 +129,7 @@ class Game extends React.Component {
           <Button onClick={() => { this.resetCells() }}>
             reset
           </Button>
-          <Button>
+          <Button onClick={() => { this.nextGeneration() }}>
             next generation
           </Button>
         </div>

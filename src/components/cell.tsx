@@ -12,8 +12,8 @@ interface StyleCellProp {
 }
 
 const StyledCell = styled.div`
-    width: 1.6em;
-    height: 1.6em;
+    width: 1.8em;
+    height: 1.8em;
     border-radius: 0.1em;
     box-sizing: border-box;
     display: flex;
