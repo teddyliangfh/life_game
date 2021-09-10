@@ -1,9 +1,19 @@
-import * as React from 'react';
+import * as React from "react";
 import styled from "styled-components";
+
+interface CellProps {
+    id: number;
+    isAlive?: boolean | undefined;
+    x: number;
+    y: number;
+}
+interface StyleCellProp {
+    isAlive?: boolean;
+}
+
 const StyledCell = styled.div`
     width: 1.6em;
     height: 1.6em;
-    background: aliceblue;
     border-radius: 0.1em;
     box-sizing: border-box;
     display: flex;
@@ -11,25 +21,24 @@ const StyledCell = styled.div`
     justify-content: center;
     cursor: pointer;
     position: relative;
-`
+    background: ${(props: StyleCellProp) => props.isAlive ? "darkblue" : "aliceblue"};
+  `;
 
-interface CellProps {
-    id: number,
-    isAlive?: boolean | undefined,
-    x:number,
-    y:number,
-    className:string
+
+class Cell extends React.PureComponent<CellProps> {
+    constructor(props: CellProps) {
+        super(props);
+        this.state = {}
+    }
+
+    render() {
+        const { isAlive } = this.props;
+        return (
+            <StyledCell
+                isAlive={isAlive}
+            >
+            </StyledCell>
+        );
+    }
 }
- 
-const Cell : React.FunctionComponent<CellProps> = (Props) => {
-    const {x,y ,id, isAlive, className} = Props;
-    return (
-        <StyledCell className={`${isAlive?"className":"className"}`}
-        cell-x={x}
-        cell-y={y}
-        >
-        </StyledCell>
-      );
-}
- 
-export default Cell ;
+export default Cell;

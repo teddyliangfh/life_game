@@ -38,81 +38,81 @@ const StyledGameBox = styled.div`
   }
 `;
 interface StateType {
-    cellsArr: any [];
-  }
+  cellsArr: any[];
+}
 class Game extends React.Component {
-    state: StateType = {
-      cellsArr: [],
-    };
-  
-    componentDidMount() {
-      this.initGameData();
-    }
+  state: StateType = {
+    cellsArr: [],
+  };
 
-    initGameData() {
-      let initArr = [];
-      let key = 0;
-      for (let i = 0; i < 10; i++) {
-        for (let j = 0; j < 10; j++) {
-          initArr.push({ id: key, isAlive: false, x: j, y: i, });
-          key++
-        }
-      }
-      console.log('initArr', initArr);
-      
-      this.setState({
-        cellsArr: initArr,
-        state: ""
-      });
-    }
-    // handleClickCell(event: React.MouseEvent<HTMLElement>) {
-    //   console.log("event.target",event.target);
-      
-    // }
-    handleClickCell(aim:number) {
-      console.log(aim);
-      this.updateCells(aim);
-    }
-
-    updateCells (id: number | undefined) {
-      const {cellsArr} = this.state;
-      const upDatedCellArray =
-      cellsArr && cellsArr.map((item) => {
-        if (item.id === id) {
-          item.isAlive = !item.isAlive
-        }
-      })
-      this.setState({cellsArr:cellsArr});
-          
-    }
-  
-    render() {
-      const { cellsArr} = this.state;
-      console.log('render cellsArr', cellsArr);
-  
-      return (
-        <StyledGameBox>
-          <h3>
-            Cell Simulator Life Game
-          </h3>
-          <div className="game-area">
-            {cellsArr.map((item) => {
-              return(
-                <div key={item?.id} onClick={()=>{this.handleClickCell(item?.id)}} >
-                  <Cell
-                    className="game-cell"
-                    key={item?.id}
-                    id={item?.id}
-                    x={item.x}
-                    y={item.y}
-                    // cellClick={this.handleClickCell}
-                    />
-                </div>
-              );
-            })}
-          </div>
-        </StyledGameBox>
-      );
-    }
+  componentDidMount() {
+    this.initGameData();
   }
+
+  initGameData() {
+    let initArr = [];
+    let key = 0;
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        initArr.push({ id: key, isAlive: false, x: j, y: i, });
+        key++
+      }
+    }
+    console.log('initArr', initArr);
+
+    this.setState({
+      cellsArr: initArr,
+      state: ""
+    });
+  }
+  // handleClickCell(event: React.MouseEvent<HTMLElement>) {
+  //   console.log("event.target",event.target);
+
+  // }
+  handleClickCell(aim: number) {
+    console.log(aim);
+    this.updateCells(aim);
+  }
+
+  updateCells(id: number | undefined) {
+    const { cellsArr } = this.state;
+    const upDatedCellArray = cellsArr && cellsArr.map((item) => {
+      if (item.id === id) {
+        item.isAlive = !item.isAlive
+      }
+      return item
+    })
+    this.setState({ cellsArr: upDatedCellArray });
+
+  }
+
+  render() {
+    const { cellsArr } = this.state;
+    console.log('render cellsArr', cellsArr);
+
+    return (
+      <StyledGameBox>
+        <h3>
+          Cell Simulator Life Game
+        </h3>
+        <div className="game-area">
+          {cellsArr.map((item) => {
+            return (
+              <div key={item?.id} onClick={() => { this.handleClickCell(item?.id) }} >
+                <Cell
+                  key={item?.id}
+                  id={item?.id}
+                  x={item.x}
+                  y={item.y}
+                  isAlive={item.isAlive}
+                // cellClick={this.handleClickCell}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </StyledGameBox>
+    );
+  }
+}
 export default Game;
