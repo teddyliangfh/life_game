@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Cell from '../components/cell';
-import { CellType } from "../interfaces/cellInterface"
+import { CellType } from "../interfaces/cell-interface"
 
 const StyledGameBox = styled.div`
   display: flex;

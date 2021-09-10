@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
-import { CellType, StyleCellProp } from "../interfaces/cellInterface"
+import { CellType, StyleCellProp } from "../interfaces/cell-interface"
 
 const StyledCell = styled.div`
     width: 1.8em;
