@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Cell from '../components/cell';
+import { CellType } from "../interfaces/cellInterface"
 
 const StyledGameBox = styled.div`
   display: flex;
@@ -47,6 +48,7 @@ const Button = styled.button`
 interface StateType {
   cellsArr: any[];
 }
+
 class Game extends React.Component {
   state: StateType = {
     cellsArr: [],
@@ -97,6 +99,16 @@ class Game extends React.Component {
   }
 
   nextGeneration() {
+    this.state.cellsArr.map((cell) => {
+      if (cell.aLive) {
+        console.log("cell", cell)
+      }
+    })
+  }
+  //
+
+  // inspect Neighbours, and count see how many alive cells
+  inspectNeighbours(cell: CellType) {
 
   }
 

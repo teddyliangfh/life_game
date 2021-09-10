@@ -1,15 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
-
-interface CellProps {
-    id: number;
-    isAlive?: boolean | undefined;
-    x: number;
-    y: number;
-}
-interface StyleCellProp {
-    isAlive?: boolean;
-}
+import { CellType, StyleCellProp } from "../interfaces/cellInterface"
 
 const StyledCell = styled.div`
     width: 1.8em;
@@ -25,8 +16,8 @@ const StyledCell = styled.div`
   `;
 
 
-class Cell extends React.PureComponent<CellProps> {
-    constructor(props: CellProps) {
+class Cell extends React.PureComponent<CellType> {
+    constructor(props: CellType) {
         super(props);
         this.state = {}
     }
