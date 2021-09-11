@@ -100,16 +100,42 @@ class Game extends React.Component {
 
   nextGeneration() {
     this.state.cellsArr.map((cell) => {
-      if (cell.aLive) {
-        console.log("cell", cell)
-      }
+      // if (cell.aLive) {
+      //   console.log("cell", cell)
+      // }
+      let num = this.inspectNeighbours(cell);
+      console.log("cell", cell, "neigbour", num);
     })
   }
   //
 
-  // inspect Neighbours, and count see how many alive cells
+  // inspect Neighbours, and count how many alive cells
   inspectNeighbours(cell: CellType) {
+    const { cellsArr } = this.state;
+    const checkArray = this.createCheckRule(cell);
+    let aliveNeighbors = 0;
+    // const { x, y, id } = cell;
+    for (let i = 0; i < checkArray.length; i++) {
+      let checkIndex = checkArray[i];
+      if (cellsArr[checkIndex] && cellsArr[checkIndex].isAlive) {
+        aliveNeighbors++;
+      }
+    }
 
+    return aliveNeighbors
+  }
+
+  // todo make rule more flexible
+  createCheckRule(cell: CellType) {
+    const { x, y, id } = cell;
+    //inner cell: check 8 neigbours
+    if (x > 0 && x < 9 && y > 0 && y < 9) {
+      return [-11 + id, -10 + id, -9 + id, -1 + id, 1 + id, 9 + id, 10 + id, 11 + id]
+    } else {
+      return []
+    }
+    //cell is in the ouline check 5 neigbours
+    //cell is on the edge check 3 neigbours
   }
 
   render() {
