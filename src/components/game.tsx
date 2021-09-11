@@ -47,17 +47,18 @@ const Button = styled.button`
 `;
 interface StateType {
   cellsArr: CellType[];
+  gameData: any[];
 }
 
 class Game extends React.Component {
   state: StateType = {
     cellsArr: [],
+    gameData: []
   };
 
   componentDidMount() {
     this.initGameData();
   }
-
   initGameData() {
     let initArr = [];
     let key = 0;
@@ -69,13 +70,11 @@ class Game extends React.Component {
     }
 
     this.setState({
-      cellsArr: initArr
+      cellsArr: initArr,
     });
-  }
-  // handleClickCell(event: React.MouseEvent<HTMLElement>) {
-  //   console.log("event.target",event.target);
 
-  // }
+  }
+
   handleClickCell(aim: number) {
     this.updateCells(aim);
   }
@@ -103,7 +102,7 @@ class Game extends React.Component {
       const newCell = this.handleLife(cell);
       return newCell;
     })
-    this.setState({ cellsArr: nexGenerationArr })
+    this.setState({ cellsArr: nexGenerationArr });
   }
 
   //decide a cell is dead or alive in next generation
@@ -130,17 +129,15 @@ class Game extends React.Component {
       cell.isAlive = true;
       return cell
     }
-    // //A Cell who "comes to life" outside the board should wrap at the other side of the board.
-    // if() {
 
-    // }
     return cell
-
   }
 
   // inspect Neighbours, and count how many alive cells
   inspectNeighbours(cell: CellType) {
     const { cellsArr } = this.state;
+    const { x, y } = cell;
+    //x-1, x+1, y
     const checkArray = this.createCheckRule(cell);
     let aliveNumber = 0;
     // const { x, y, id } = cell;
@@ -149,21 +146,31 @@ class Game extends React.Component {
       if (cellsArr[checkIndex] && cellsArr[checkIndex].isAlive) {
         aliveNumber++;
       }
+      //if cellsArr 
     }
     return aliveNumber
   }
 
-  // todo make rule more flexible
   createCheckRule(cell: CellType) {
     const { x, y, id } = cell;
     //inner cell: check 8 neigbours
     if (x > 0 && x < 9 && y > 0 && y < 9) {
       return [-11 + id, -10 + id, -9 + id, -1 + id, 1 + id, 9 + id, 10 + id, 11 + id]
     } else {
-      return []
+      // deal with the case:A Cell who "comes to life" outside the board should wrap at the other side of the board.
+      let checkArr = [];
+      for (let i = -1; i < 2; i++) {
+        for (let j = -1; j < 2; j++) {
+          let colIndex = (x + i + 10) % 10;
+          let rowIndex = (y + j + 10) % 10;
+          let idd = 10 * rowIndex + colIndex;
+          //remove the cell itself
+          if (idd !== id) { checkArr.push(idd); }
+        }
+      }
+      // if (cell.isAlive) console.log('checkArr', cell, checkArr);
+      return checkArr
     }
-    //cell is in the ouline check 5 neigbours
-    //cell is on the edge check 3 neigbours
   }
 
   render() {

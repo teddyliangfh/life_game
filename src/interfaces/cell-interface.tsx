@@ -6,5 +6,5 @@ export interface CellType {
 }
 
 export interface StyleCellProp {
-    isAlive?: boolean;
+    isAlive?: boolean | undefined;
 }
