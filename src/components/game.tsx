@@ -47,13 +47,11 @@ const Button = styled.button`
 `;
 interface StateType {
   cellsArr: CellType[];
-  gameData: any[];
 }
 
 class Game extends React.Component {
   state: StateType = {
     cellsArr: [],
-    gameData: []
   };
 
   componentDidMount() {
@@ -68,11 +66,9 @@ class Game extends React.Component {
         key++
       }
     }
-
     this.setState({
       cellsArr: initArr,
     });
-
   }
 
   handleClickCell(aim: number) {
@@ -136,17 +132,13 @@ class Game extends React.Component {
   // inspect Neighbours, and count how many alive cells
   inspectNeighbours(cell: CellType) {
     const { cellsArr } = this.state;
-    const { x, y } = cell;
-    //x-1, x+1, y
     const checkArray = this.createCheckRule(cell);
     let aliveNumber = 0;
-    // const { x, y, id } = cell;
     for (let i = 0; i <= checkArray.length; i++) {
       let checkIndex = checkArray[i];
       if (cellsArr[checkIndex] && cellsArr[checkIndex].isAlive) {
         aliveNumber++;
       }
-      //if cellsArr 
     }
     return aliveNumber
   }
