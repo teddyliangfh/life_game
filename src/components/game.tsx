@@ -46,7 +46,7 @@ const Button = styled.button`
     user-select: none;
 `;
 interface StateType {
-  cellsArr: any[];
+  cellsArr: CellType[];
 }
 
 class Game extends React.Component {
@@ -67,11 +67,9 @@ class Game extends React.Component {
         key++
       }
     }
-    console.log('initArr', initArr);
 
     this.setState({
-      cellsArr: initArr,
-      state: ""
+      cellsArr: initArr
     });
   }
   // handleClickCell(event: React.MouseEvent<HTMLElement>) {
@@ -79,7 +77,6 @@ class Game extends React.Component {
 
   // }
   handleClickCell(aim: number) {
-    console.log(aim);
     this.updateCells(aim);
   }
 
@@ -99,30 +96,61 @@ class Game extends React.Component {
   }
 
   nextGeneration() {
-    this.state.cellsArr.map((cell) => {
-      // if (cell.aLive) {
-      //   console.log("cell", cell)
-      // }
-      let num = this.inspectNeighbours(cell);
-      console.log("cell", cell, "neigbour", num);
+    const { cellsArr } = this.state;
+    //deep clone 
+    let arrayCopy: [] = JSON.parse(JSON.stringify(cellsArr));
+    const nexGenerationArr = arrayCopy.map((cell) => {
+      const newCell = this.handleLife(cell);
+      return newCell;
     })
+    this.setState({ cellsArr: nexGenerationArr })
   }
-  //
+
+  //decide a cell is dead or alive in next generation
+  handleLife(cell: CellType) {
+    const aliveNeighbour = this.inspectNeighbours(cell);
+    const { isAlive } = cell;
+    //A Cell with fewer than two live neighbours dies of under-population.
+    if (isAlive && aliveNeighbour < 2) {
+      cell.isAlive = false;
+      return cell;
+    }
+    //A Cell with more than 3 live neighbours dies of overcrowding.
+    if (isAlive && aliveNeighbour > 3) {
+      cell.isAlive = false;
+      return cell;
+    }
+    //A Cell with 2 or 3 live neighbours lives on to the next generation.
+    if (isAlive && (aliveNeighbour === 2 || aliveNeighbour === 3)) {
+      cell.isAlive = true;
+      return cell
+    }
+    //An empty Cell with exactly 3 live neighbours "comes to life".
+    if (isAlive === false && aliveNeighbour === 3) {
+      cell.isAlive = true;
+      return cell
+    }
+    // //A Cell who "comes to life" outside the board should wrap at the other side of the board.
+    // if() {
+
+    // }
+    return cell
+
+  }
 
   // inspect Neighbours, and count how many alive cells
   inspectNeighbours(cell: CellType) {
     const { cellsArr } = this.state;
     const checkArray = this.createCheckRule(cell);
-    let aliveNeighbors = 0;
+    let aliveNumber = 0;
     // const { x, y, id } = cell;
-    for (let i = 0; i < checkArray.length; i++) {
+    for (let i = 0; i <= checkArray.length; i++) {
       let checkIndex = checkArray[i];
       if (cellsArr[checkIndex] && cellsArr[checkIndex].isAlive) {
-        aliveNeighbors++;
+        aliveNumber++;
       }
     }
-
-    return aliveNeighbors
+    return aliveNumber
   }
 
   // todo make rule more flexible
@@ -140,7 +168,6 @@ class Game extends React.Component {
 
   render() {
     const { cellsArr } = this.state;
-    console.log('render cellsArr', cellsArr);
 
     return (
       <StyledGameBox>
@@ -152,7 +179,6 @@ class Game extends React.Component {
             return (
               <div key={item?.id} onClick={() => { this.handleClickCell(item?.id) }} >
                 <Cell
-                  key={item?.id}
                   id={item?.id}
                   x={item.x}
                   y={item.y}
@@ -171,8 +197,6 @@ class Game extends React.Component {
             next generation
           </Button>
         </div>
-
-
       </StyledGameBox>
     );
   }
