@@ -10,9 +10,9 @@ The Game of Life, also known simply as Life, is a cellular automaton devised by 
 * A Cell who "comes to life" outside the board should wrap at the other side of the board.
 
 ## How to run the game
-* run npm install/ yarn install to intall the dependencies
-* run npm run start/ yarn start to start the game
-* after run "npm run start", a webpage will open automaticly. If not, the address would be http://localhost:3000/
+* run yarn install to intall the dependencies
+* run yarn start to start the game
+* after "start", a webpage will open automaticly. If not, the address would be http://localhost:3000/
 ## How to play the game
 * At initial state, you will see an empty board with 10X10 matrix with 100 cells.
 * you can make Cells "alive" by clicking it. The alive cell's color is darkblue.
